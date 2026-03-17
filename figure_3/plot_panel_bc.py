@@ -79,3 +79,73 @@ samples = [
 ]
 
 plot_pred_vs_truth_heatmap_4x4(dfs, true_rt, samples, outfile="pred_vs_truth_heatmap.pdf")
+
+def plot_chromosome_correlation_bars(dfs, true_rt, samples, outfile=None):
+    correlations = []
+
+    for sample in samples:
+        df_pred = dfs[sample]
+        chromosomes = df_pred["chromosome"].unique()
+
+        for chrom in chromosomes:
+            pred_vals = df_pred[df_pred["chromosome"] == chrom]["predicted_rt"].values
+            true_vals = true_rt[true_rt["chromosome"] == chrom]["predicted_rt"].values
+
+            if len(pred_vals) == len(true_vals) and len(pred_vals) > 0:
+                corr, _ = pearsonr(pred_vals, true_vals)
+                correlations.append({
+                    "chromosome": chrom,
+                    "sample": sample,
+                    "correlation": corr
+                })
+
+    corr_df = pd.DataFrame(correlations)
+
+    # Order chromosomes by median correlation across samples
+    chrom_order = corr_df.groupby("chromosome")["correlation"].median().sort_values(ascending=False).index
+
+    plt.figure(figsize=(12, 4))
+    ax = sns.barplot(
+        data=corr_df,
+        x="chromosome",
+        y="correlation",
+        order=chrom_order,
+        edgecolor="black"
+    )
+
+    markers = ["o", "^", "s"]  # circle, triangle, square
+
+    # Overlay scatter points with different markers per sample
+    for i, chrom in enumerate(chrom_order):
+        for j, sample in enumerate(samples):
+            vals = corr_df[(corr_df["chromosome"] == chrom) & (corr_df["sample"] == sample)]["correlation"].values
+            ax.scatter(
+                [i + j*0.3 - 0.3 for _ in vals],  # jitter
+                vals,
+                color="orange",
+                marker=markers[j],
+                edgecolor="black",
+                linewidth=1,
+                zorder=10,
+                s=60,
+                label=sample if i == 0 else ""  # add label only once for legend
+            )
+
+    plt.xlabel("Chromosome")
+    plt.ylabel("Pearson correlation to truth")
+    plt.title("Chromosome-wise Correlation of Predicted RT to Ground Truth")
+    plt.ylim(0, 1)
+    plt.tight_layout()
+
+    if outfile:
+        plt.savefig(outfile, dpi=300)
+    plt.show()
+
+
+samples = [
+    "imbulrich20240401wt",
+    "sfbulrich20250101wt",
+    "sfbulrich20250102wtrad21",
+]
+
+plot_chromosome_correlation_bars(dfs, true_rt, samples, outfile="chromosome_correlation_barplot.pdf")
