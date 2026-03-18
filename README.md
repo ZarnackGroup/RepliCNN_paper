@@ -1,4 +1,4 @@
-# RepliCNN
+# RepliCNN: High-resolution inference of the DNA replication program from strand-specific 3′ DNA end sequencing
 Code to reproduce figures of the RepliCNN paper (https://doi.org/10.64898/2026.03.12.710907).
 
 ## Funding
