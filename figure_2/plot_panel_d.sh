@@ -32,10 +32,9 @@ pyGenomeTracks  \
 	--title "TrAEL-Seq ${sample} ${region}" \
 	--height 40 \
 	--width 28 \
-	--outFileName ${sample}.pdf
+	--outFileName ${sample}_${region}.pdf
 
 # gloeseq
-region=chrVI:1-270161
 sample=imbulrich201807s16
 pyGenomeTracks  \
 	--tracks ./example_gloeseq.ini \
@@ -43,10 +42,9 @@ pyGenomeTracks  \
 	--title "GLOE-Seq ${sample} ${region}" \
 	--height 40 \
 	--width 28 \
-	--outFileName ${sample}.pdf
+	--outFileName ${sample}_${region}.pdf
 
 # okseq
-region=chrI:1-230218
 sample=GSM835651
 pyGenomeTracks  \
 	--tracks ./example_okseq.ini \
@@ -54,4 +52,4 @@ pyGenomeTracks  \
 	--title "OK-Seq ${sample} ${region}" \
 	--height 40 \
 	--width 28 \
-	--outFileName ${sample}.pdf
+	--outFileName ${sample}_${region}.pdf
