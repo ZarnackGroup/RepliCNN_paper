@@ -11,4 +11,4 @@ We would like to express our gratitude to the Genomics and Bioinformatics Core F
 If you use RepliCNN in your research, please cite this project like this:
 
 **RepliCNN: High-resolution inference of the DNA replication program from strand-specific 3′ DNA end sequencing**  
-*Dominik Stroh, Nicola Zilio, Maruthi K. Pabba, Christina Ntasiou, Giuseppe Petrosino, María Camila Fetiva, María Méndez-Lago, Vassilis Roukos3,5, Sandra Schick3, M. Cristina Cardoso4, Helle D. Ulrich3, Kathi Zarnack1,2,*  
+*Dominik Stroh, Nicola Zilio, Maruthi K. Pabba, Christina Ntasiou, Giuseppe Petrosino, María Camila Fetiva, María Méndez-Lago, Vassilis Roukos, Sandra Schick, M. Cristina Cardoso, Helle D. Ulrich, Kathi Zarnack*  
