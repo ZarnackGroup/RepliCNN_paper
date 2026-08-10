@@ -22,12 +22,12 @@ samples = [
 chromosomes = ["chr"+str(i) for i in range(1, 23)]
 names = ["chromosome","start","end","pos","neg","log2","spline","derivative","antiderivative","true_time"]
 true_time = pd.read_csv(
-		"/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/data/sdfs/imbulrich20240401wt.tsv", 
+		"PATH/data/sdfs/imbulrich20240401wt.tsv", 
 		sep="\t", 
 		names=names
 	)[["chromosome","start","end","true_time"]]
 
-path = Path("/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/scripts/06_revision/pu_seq/src/models/")
+path = Path("PATH/scripts/06_revision/pu_seq/src/models/")
 
 rows = []
 
