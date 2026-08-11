@@ -4,11 +4,11 @@ import seaborn as sns
 
 names = ["chromosome", "start", "end", "timing"]
 
-hct116_timing = pd.read_csv("/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/data/timetables/human/human_hct116_GSE137764_hg38_rt_processed.bg", sep="\t", names=names)
+hct116_timing = pd.read_csv("/PATH/data/timetables/human/human_hct116_GSE137764_hg38_rt_processed.bg", sep="\t", names=names)
 
 human_chromosomes = ["chr"+str(i) for i in range(1, 23)]
 human_samples = ["imbulrich20240401wt", "sfbulrich20250101wt", "sfbulrich20250102wtrad21"]
-base_path = "/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/data/cross_prediction/models"
+base_path = "/PATH/data/cross_prediction/models"
 
 names = ["chromosome", "start", "end", "fwd", "rev", "log2", "spline", "deri", "antideri", "predicted_time"]
 
