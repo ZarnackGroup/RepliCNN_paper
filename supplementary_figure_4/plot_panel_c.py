@@ -89,7 +89,7 @@ def plot_rfd_oem_bedgraph(
     plt.close()
 
 names = ["chrom","start","end","pos","neg","log2","spline","deri","antideri","value"]
-true_time = pd.read_csv("/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/data/sdfs/imbulrich20240401wt.tsv", sep="\t", names=names)
+true_time = pd.read_csv("PATH/data/sdfs/imbulrich20240401wt.tsv", sep="\t", names=names)
 
 chromosome = "chr2"
 start = 0
@@ -97,7 +97,7 @@ end = 180000000
 train_on = "yeast_gloeseq_imbulrich201807s18"
 pred_on = "GSM3939127"
 
-df1 = pd.read_csv(f"/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/data/cross_prediction/models/{train_on}_delta_none/{pred_on}_pred.tsv", sep="\t", names=names)
+df1 = pd.read_csv(f"PATH/data/cross_prediction/models/{train_on}_delta_none/{pred_on}_pred.tsv", sep="\t", names=names)
 
 plot_rfd_oem_bedgraph(
     chrom=chromosome,
@@ -107,7 +107,7 @@ plot_rfd_oem_bedgraph(
     truth=true_time,
     colors=("darkred",),
     truth_color="goldenrod",
-	outfile=f"/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/scripts/04_plots_analyses/examples/cross_examples{train_on}_{pred_on}_{chromosome}.pdf",
+	outfile=f"PATH/scripts/04_plots_analyses/examples/cross_examples{train_on}_{pred_on}_{chromosome}.pdf",
 )
 
 print(pearsonr(
@@ -125,7 +125,7 @@ print(root_mean_squared_error(
 ))
 
 names = ["chrom","start","end","pos","neg","log2","spline","deri","antideri","value"]
-true_time = pd.read_csv("/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/data/sdfs/imbulrich20240401wt.tsv", sep="\t", names=names)
+true_time = pd.read_csv("PATH/data/sdfs/imbulrich20240401wt.tsv", sep="\t", names=names)
 
 chromosome = "chr5"
 start = 10000000
@@ -133,7 +133,7 @@ end = 80000000
 train_on = "yeast_okseq_GSM835651"
 pred_on = "sfbulrich20240701wtctcf"
 
-df1 = pd.read_csv(f"/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/data/cross_prediction/models/{train_on}_delta_none/{pred_on}_pred.tsv", sep="\t", names=names)
+df1 = pd.read_csv(f"PATH/data/cross_prediction/models/{train_on}_delta_none/{pred_on}_pred.tsv", sep="\t", names=names)
 
 plot_rfd_oem_bedgraph(
     chrom=chromosome,
@@ -143,7 +143,7 @@ plot_rfd_oem_bedgraph(
     truth=true_time,
     colors=("darkred",),
     truth_color="goldenrod",
-	outfile=f"/home/dos02bi/koenig_data/projects/rt_prediction/paper_code_for_github/scripts/04_plots_analyses/examples/cross_examples{train_on}_{pred_on}_{chromosome}.pdf",
+	outfile=f"PATH/scripts/04_plots_analyses/examples/cross_examples{train_on}_{pred_on}_{chromosome}.pdf",
 )
 
 print(pearsonr(
