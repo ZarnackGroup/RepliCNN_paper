@@ -108,6 +108,20 @@ plot_rfd_oem_bedgraph(
 	outfile=f"PATH/scripts/04_plots_analyses/examples/cross_examples{train_on}_{pred_on}_{chromosome}.pdf",
 )
 
+print(pearsonr(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+)[0])
+
+print(mean_absolute_error(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+))
+print(root_mean_squared_error(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+))
+
 names = ["chrom","start","end","pos","neg","log2","spline","deri","antideri","value"]
 true_time = pd.read_csv("PATH/data/sdfs/imbulrich201807s16.tsv", sep="\t", names=names)
 
@@ -129,6 +143,20 @@ plot_rfd_oem_bedgraph(
     truth_color="goldenrod",
 	outfile=f"PATH/scripts/04_plots_analyses/examples/cross_examples{train_on}_{pred_on}_{chromosome}.pdf",
 )
+
+print(pearsonr(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+)[0])
+
+print(mean_absolute_error(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+))
+print(root_mean_squared_error(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+))
 
 names = ["chrom","start","end","pos","neg","log2","spline","deri","antideri","value"]
 true_time = pd.read_csv("PATH/data/sdfs/imbulrich201807s16.tsv", sep="\t", names=names)
@@ -152,6 +180,20 @@ plot_rfd_oem_bedgraph(
 	outfile=f"PATH/scripts/04_plots_analyses/examples/cross_examples{train_on}_{pred_on}_{chromosome}.pdf",
 )
 
+print(pearsonr(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+)[0])
+
+print(mean_absolute_error(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+))
+print(root_mean_squared_error(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+))
+
 names = ["chrom","start","end","pos","neg","log2","spline","deri","antideri","value"]
 true_time = pd.read_csv("PATH/data/sdfs/imbulrich201807s16.tsv", sep="\t", names=names)
 
@@ -173,3 +215,17 @@ plot_rfd_oem_bedgraph(
     truth_color="goldenrod",
 	outfile=f"PATH/scripts/04_plots_analyses/examples/cross_examples{train_on}_{pred_on}_{chromosome}.pdf",
 )
+
+print(pearsonr(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+)[0])
+
+print(mean_absolute_error(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+))
+print(root_mean_squared_error(
+	true_time.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value,
+	df1.query("(chrom==@chromosome) & (start>=@start) & (end<=@end)").value
+))

@@ -60,10 +60,6 @@ meta = meta.sort_values(
 ordered_samples = meta["sample"].tolist()
 meta = meta.set_index("sample")
 
-# ---------------------------------
-# 2) Create heatmap matrix
-# ---------------------------------
-
 heatmap_matrix = data.pivot(
     index="train_sample",
     columns="pred_sample",
@@ -75,9 +71,6 @@ heatmap_matrix = heatmap_matrix.reindex(
     columns=ordered_samples
 )
 
-# ---------------------------------
-# 3) Create color palettes
-# ---------------------------------
 
 organisms = meta["organism"].unique()
 experiments = meta["experiment"].unique()
@@ -96,10 +89,6 @@ row_colors = pd.DataFrame({
 })
 
 col_colors = row_colors.copy()
-
-# ---------------------------------
-# 4) Plot heatmap
-# ---------------------------------
 
 g = sns.clustermap(
     heatmap_matrix,
@@ -121,18 +110,10 @@ g.ax_heatmap.set_xlabel("Predicted sample")
 g.ax_heatmap.set_ylabel("Training sample")
 g.ax_heatmap.set_title("Replication Timing Cross-Sample Prediction")
 
-# ---------------------------------
-# 5) Add black border around heatmap
-# ---------------------------------
-
 for spine in g.ax_heatmap.spines.values():
     spine.set_visible(True)
     spine.set_linewidth(1)
     spine.set_edgecolor("black")
-
-# ---------------------------------
-# 6) Create legends
-# ---------------------------------
 
 organism_handles = [
     Patch(facecolor=color, label=org)
@@ -195,7 +176,7 @@ plt.figure(figsize=(18, 6))
 sns.boxplot(
     data=col_long,
     x="pred_sample",
-    y="pearsonr",
+    y="rmse",
     hue="experiment",
     palette=experiment_palette,
     showfliers=False,
@@ -205,7 +186,7 @@ sns.boxplot(
 sns.stripplot(
     data=col_long_no_self,
     x="pred_sample",
-    y="pearsonr",
+    y="rmse",
     hue="experiment",
     palette=experiment_palette,
     dodge=False,
@@ -221,7 +202,7 @@ sns.stripplot(
 sns.scatterplot(
     data=self_pred,
     x="pred_sample",
-    y="pearsonr",
+    y="rmse",
     color="red",
     edgecolor="black",
 	alpha=1,
@@ -246,7 +227,7 @@ plt.figure(figsize=(6, 18))
 sns.boxplot(
     data=row_long,
     y="train_sample",
-    x="pearsonr",
+    x="rmse",
     hue="experiment",
     palette=experiment_palette,
     showfliers=False,
@@ -256,7 +237,7 @@ sns.boxplot(
 sns.stripplot(
     data=row_long_no_self,
     y="train_sample",
-    x="pearsonr",
+    x="rmse",
     hue="experiment",
     palette=experiment_palette,
     dodge=False,
@@ -271,7 +252,7 @@ sns.stripplot(
 sns.scatterplot(
     data=self_pred_row,
     y="train_sample",
-    x="pearsonr",
+    x="rmse",
     color="red",
     edgecolor="black",
     s=60,

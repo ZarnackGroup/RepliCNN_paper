@@ -1,90 +1,48 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import matplotlib as mpl
-import matplotlib.ticker as ticker
+import numpy as np
+from matplotlib_venn import venn3
 
-names = ["chrom", "start", "end", "name", "score", "strand", "thickStart", "thickEnd", "itemRgb"]
-threshold = 0
-wt_1 = pd.read_csv("./ori_ter/imbulrich20240401wt_oris_ters.bed", sep="\t", names=names).query("score>@threshold").query("strand=='+'")
-wt_2 = pd.read_csv("./ori_ter/sfbulrich20250101wt_oris_ters.bed", sep="\t", names=names).query("score>@threshold").query("strand=='+'")
-wt_3 = pd.read_csv("./ori_ter/sfbulrich20250102wtrad21_oris_ters.bed", sep="\t", names=names).query("score>@threshold").query("strand=='+'")
+oris = pd.read_csv("./ori_ter/merged_oris.bed", sep="\t", header=None, names=["chrom", "start", "end", "name"])
+ters = pd.read_csv("./ori_ter/merged_ters.bed", sep="\t", header=None, names=["chrom", "start", "end", "name"])
 
-def compute_inter_origin_distance(df):
+wt_1 = "imbulrich20240401wt"
+wt_2 = "sfbulrich20250101wt"
+wt_3 = "sfbulrich20250102wtrad21"
+
+oris = oris.assign(wt_1= oris["name"].str.contains(wt_1)).assign(wt_2= oris["name"].str.contains(wt_2)).assign(wt_3= oris["name"].str.contains(wt_3))[["wt_1", "wt_2", "wt_3"]]
+ters = ters.assign(wt_1= ters["name"].str.contains(wt_1)).assign(wt_2= ters["name"].str.contains(wt_2)).assign(wt_3= ters["name"].str.contains(wt_3))[["wt_1", "wt_2", "wt_3"]]
+
+def plot_venn_from_boolean_df(df, cols=("wt_1", "wt_2", "wt_3"), outfile=None):
     
-    # Work on a copy
-    df = df.copy()
+    A, B, C = cols
     
-    # Compute midpoint of each ORI
-    df["midpoint"] = (df["start"] + df["end"]) / 2
+    # Compute set sizes
+    only_A = ((df[A]) & (~df[B]) & (~df[C])).sum()
+    only_B = ((~df[A]) & (df[B]) & (~df[C])).sum()
+    only_C = ((~df[A]) & (~df[B]) & (df[C])).sum()
     
-    # Sort by chromosome and genomic position
-    df = df.sort_values(["chrom", "midpoint"])
+    A_B = ((df[A]) & (df[B]) & (~df[C])).sum()
+    A_C = ((df[A]) & (~df[B]) & (df[C])).sum()
+    B_C = ((~df[A]) & (df[B]) & (df[C])).sum()
     
-    # Compute inter-origin distance per chromosome
-    df["inter_origin_distance"] = (
-        df.groupby("chrom")["midpoint"]
-        .diff()
+    A_B_C = ((df[A]) & (df[B]) & (df[C])).sum()
+    
+    plt.figure(figsize=(6,6))
+    
+    venn3(
+        subsets=(only_A, only_B, A_B, only_C, A_C, B_C, A_B_C),
+        set_labels=cols
     )
     
-    return df
+    plt.title("Overlap between WT samples")
+    
+    if outfile:
+        plt.savefig(outfile, dpi=300)
+    
+    plt.show()
+    
+plot_venn_from_boolean_df(oris, outfile="wt_ori_venn_new.pdf")
 
-dfs = {
-    "WT_1": compute_inter_origin_distance(wt_1),
-    "WT_2": compute_inter_origin_distance(wt_2),
-    "WT_3": compute_inter_origin_distance(wt_3),
-}
-
-# ---- Prepare long-format dataframe ----
-records = []
-
-for sample_name, df in dfs.items():
-    clean = df.dropna(subset=["inter_origin_distance"])
-
-    chrom_medians = (
-        clean
-        .groupby("chrom")["inter_origin_distance"]
-        .median()
-        .reset_index()
-    )
-
-    chrom_medians["sample"] = sample_name
-    records.append(chrom_medians)
-
-plot_df = pd.concat(records, ignore_index=True)
-
-mpl.rcParams.update({'font.size': 10})
-
-# ---- Plot ----
-plt.figure(figsize=(8, 4))
-
-sns.boxplot(
-    data=plot_df,
-    x="inter_origin_distance",
-    y="sample",
-    showfliers=False
-)
-
-sns.stripplot(
-    data=plot_df,
-    x="inter_origin_distance",
-    y="sample",
-    jitter=0.15,
-    alpha=1,
-    edgecolor="black",
-    linewidth=0.5
-)
-
-plt.xlabel("Chromosome-wise median inter-IZ distance (kb)")
-plt.ylabel("")
-plt.xlim(0, 300_000)
-
-plt.yticks(rotation=90)
-
-plt.gca().xaxis.set_major_formatter(
-    ticker.FuncFormatter(lambda x, pos: f"{int(x/1000)}")
-)
-plt.savefig("chromosome_wise_inter_origin_distance_boxplot_new_new.pdf", dpi=300)
-plt.tight_layout()
-plt.show()
+plot_venn_from_boolean_df(ters, outfile="wt_ter_venn_new.pdf")

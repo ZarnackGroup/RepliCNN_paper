@@ -149,3 +149,58 @@ plt.savefig(
     format="pdf",
 )
 plt.show()
+
+g = sns.JointGrid(
+    data=plot_data,
+    x="rmse",
+    y="mae",
+    height=4.5,
+    ratio=6,
+    space=0,
+)
+
+# Scatter
+sns.scatterplot(
+    data=plot_data,
+    x="rmse",
+    y="mae",
+    hue="family",
+    ax=g.ax_joint,
+    linewidth=0.5,
+    edgecolor="black",
+    alpha=0.5,
+)
+
+# Marginal KDEs
+sns.kdeplot(
+    data=plot_data,
+    x="rmse",
+    hue="family",
+    common_norm=False,
+    fill=False,
+    linewidth=1.5,
+    ax=g.ax_marg_x,
+    legend=False,
+)
+
+sns.kdeplot(
+    data=plot_data,
+    y="mae",
+    hue="family",
+    common_norm=False,
+    fill=False,
+    linewidth=1.5,
+    ax=g.ax_marg_y,
+    legend=False,
+)
+
+g.ax_joint.plot([0, 1], [0, 1], ls="--", c=".3", linewidth=1.5)  # diagonal line
+
+g.ax_joint.set_title("Chromosome-wise RMSE and MAE")
+g.ax_joint.set_xlabel("RMSE")
+g.ax_joint.set_ylabel("MAE")
+g.ax_joint.set_xlim((0,0.8))
+g.ax_joint.set_ylim((0,0.8))
+
+plt.savefig("rmse_mae_scatter.pdf", format="pdf")
+plt.show()

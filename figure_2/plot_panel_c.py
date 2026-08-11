@@ -11,7 +11,6 @@ ids = [
     ("yeast", "traelseq", "GSM4680452"),
     ("yeast", "traelseq", "GSM4680453"),
     ("yeast", "traelseq", "GSM4680454"),
-    # ("yeast", "traelseq", "GSM4680455"),
     ("yeast", "traelseq", "GSM4680457"),
     ("yeast", "traelseq", "GSM4680459"),
     ("yeast", "traelseq", "GSM4680460"),

@@ -149,3 +149,82 @@ samples = [
 ]
 
 plot_chromosome_correlation_bars(dfs, true_rt, samples, outfile="chromosome_correlation_barplot.pdf")
+
+def plot_error_kde(dfs, true_rt, samples, metric, outfile=None):
+
+    values = []
+
+    for sample in samples:
+        df_pred = dfs[sample]
+
+        for chrom in df_pred["chromosome"].unique():
+
+            pred_vals = df_pred[df_pred["chromosome"] == chrom]["predicted_rt"].values
+            true_vals = true_rt[true_rt["chromosome"] == chrom]["predicted_rt"].values
+
+            if len(pred_vals) == len(true_vals) and len(pred_vals) > 0:
+
+                if metric == "mae":
+                    value = mean_absolute_error(true_vals, pred_vals)
+
+                elif metric == "rmse":
+                    value = root_mean_squared_error(true_vals, pred_vals)
+
+                values.append(
+                    {
+                        "sample": sample,
+                        "chromosome": chrom,
+                        "value": value,
+                    }
+                )
+
+    error_df = pd.DataFrame(values)
+
+    fig, ax = plt.subplots(
+        figsize=(3.5, 2.5)
+    )
+
+    sns.kdeplot(
+        data=error_df,
+        x="value",
+        hue="sample",
+        fill=True,
+        alpha=0.25,
+        linewidth=1,
+        ax=ax,
+    )
+
+    ax.set_xlabel(metric.upper())
+    ax.set_ylabel("Density")
+
+    ax.legend(
+        frameon=False,
+        fontsize=6,
+    )
+
+    plt.tight_layout()
+
+    if outfile:
+        plt.savefig(
+            outfile,
+            dpi=300,
+            bbox_inches="tight"
+        )
+
+    plt.show()
+
+plot_error_kde(
+    dfs,
+    true_rt,
+    samples,
+    metric="mae",
+    outfile="mae_distribution.pdf"
+)
+
+plot_error_kde(
+    dfs,
+    true_rt,
+    samples,
+    metric="rmse",
+    outfile="rmse_distribution.pdf"
+)
