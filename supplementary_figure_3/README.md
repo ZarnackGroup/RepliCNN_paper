@@ -1,1 +1,1 @@
-There is no code associated to supplementary figure 3.
+Code to reproduce supplementary figure 3.
